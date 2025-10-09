@@ -1,0 +1,14 @@
+<ion-content>
+  <swiper [pagination]="true" class="mySwiper">
+    <ng-template swiperSlide *ngFor="let s of slides">
+      <div class="slide-content">
+        <img [src]="s.img" alt="Imagem do slide" />
+        <h2>{{ s.title }}</h2>
+        <p>{{ s.desc }}</p>
+        <ion-button expand="block" color="primary" (click)="goToLogin()">Próximo</ion-button>
+      </div>
+    </ng-template>
+  </swiper>
+
+  <ion-text class="skip" (click)="goToLogin()">Pular</ion-text>
+</ion-content>

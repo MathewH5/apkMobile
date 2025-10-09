@@ -1,0 +1,30 @@
+ion-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+form {
+  width: 100%;
+  max-width: 360px;
+}
+
+ion-item {
+  margin-bottom: 12px;
+  --background: var(--ion-background-color);
+  border-radius: 8px;
+}
+
+ion-button {
+  --border-radius: 8px;
+  margin-top: 12px;
+  text-transform: uppercase;
+}
+
+ion-button[fill='clear'] {
+  color: var(--ion-color-primary);
+  font-size: 14px;
+  margin-top: 4px;
+}

@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Meu Perfil 👤</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="dark" class="perfil-container">
+  <div class="perfil-info">
+    <ion-avatar>
+      <img src="https://i.pravatar.cc/150?img=12" alt="Avatar do usuário" />
+    </ion-avatar>
+    <h2>Matheos Hanna</h2>
+    <p>🏆 Pontos: {{ pontos }}</p>
+    <p>🔥 Streak: {{ streak }} dias</p>
+  </div>
+
+  <ion-list>
+    <ion-item lines="inset">
+      <ion-label>Meta semanal</ion-label>
+      <ion-badge color="success">{{ metasConcluidas }}/7</ion-badge>
+    </ion-item>
+    <ion-item lines="inset">
+      <ion-label>Desafios concluídos</ion-label>
+      <ion-badge color="primary">{{ desafiosConcluidos }}</ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" color="danger" (click)="logout()">
+    Sair
+  </ion-button>
+</ion-content>

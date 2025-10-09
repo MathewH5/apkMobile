@@ -1,0 +1,20 @@
+ion-card {
+  z-index: 10;
+  position: relative;
+}
+
+ion-card-content {
+  position: relative;
+  z-index: 11;
+}
+
+ion-button {
+  pointer-events: auto !important;
+  z-index: 20 !important;
+}
+
+ion-content {
+  --background: #000;
+  position: relative;
+  z-index: 1;
+}

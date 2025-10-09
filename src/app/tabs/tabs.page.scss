@@ -1,1 +1,10 @@
 
+ion-tab-bar {
+  z-index: 1 !important;
+  position: relative !important;
+}
+
+ion-content {
+  z-index: 10 !important;
+  position: relative !important;
+}

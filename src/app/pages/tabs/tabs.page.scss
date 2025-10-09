@@ -1,0 +1,20 @@
+:host {
+  z-index: 0 !important;
+}
+
+ion-tabs {
+  position: relative !important;
+  z-index: 0 !important;
+}
+
+ion-router-outlet {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+ion-tab-bar {
+  position: fixed !important;
+  bottom: 0;
+  width: 100%;
+  z-index: 5 !important;
+}

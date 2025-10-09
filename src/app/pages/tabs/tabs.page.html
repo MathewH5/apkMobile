@@ -1,6 +1,7 @@
 <ion-tabs>
   <ion-router-outlet></ion-router-outlet>
-  <ion-tab-bar slot="bottom" color="light">
+
+  <ion-tab-bar slot="bottom" color="dark">
     <ion-tab-button tab="home" [routerLink]="['/tabs/home']">
       <ion-icon name="home-outline"></ion-icon>
       <ion-label>Home</ion-label>
@@ -9,11 +10,6 @@
     <ion-tab-button tab="desafios" [routerLink]="['/tabs/desafios']">
       <ion-icon name="trophy-outline"></ion-icon>
       <ion-label>Desafios</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="checkin" [routerLink]="['/tabs/checkin']">
-      <ion-icon name="checkbox-outline"></ion-icon>
-      <ion-label>Check-in</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="perfil" [routerLink]="['/tabs/perfil']">

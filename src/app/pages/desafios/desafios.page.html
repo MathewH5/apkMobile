@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="dark">
+    <ion-title>Meus Desafios 💪</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="dark">
+  <ion-list>
+    <ion-item *ngFor="let desafio of desafios" lines="inset">
+      <ion-label>
+        <h2>{{ desafio.titulo }}</h2>
+        <p>{{ desafio.categoria }} • {{ desafio.tempo }}</p>
+      </ion-label>
+      <ion-badge [color]="desafio.concluido ? 'success' : 'medium'">
+        {{ desafio.concluido ? 'Feito' : 'Pendente' }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>

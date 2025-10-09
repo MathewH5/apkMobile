@@ -1,0 +1,53 @@
+.slide-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+img {
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--ion-text-color);
+}
+
+p {
+  font-size: 0.95rem;
+  color: var(--ion-text-color);
+  opacity: 0.8;
+  margin-bottom: 24px;
+  max-width: 300px;
+}
+
+ion-button {
+  width: 100%;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.skip {
+  position: absolute;
+  top: 24px;
+  right: 20px;
+  color: var(--ion-color-primary);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.mySwiper {
+  height: 100%;
+  width: 100%;
+}

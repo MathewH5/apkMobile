@@ -3,6 +3,43 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.routes').then((m) => m.routes),
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./pages/login/login.page').then((m) => m.LoginPage),
+  },
+  {
+    path: 'tabs',
+    loadComponent: () =>
+      import('./pages/tabs/tabs.page').then((m) => m.TabsPage),
+    children: [
+      {
+        path: 'home',
+        loadComponent: () =>
+          import('./pages/home/home.page').then((m) => m.HomePage),
+      },
+      {
+        path: 'desafios',
+        loadComponent: () =>
+          import('./pages/desafios/desafios.page').then((m) => m.DesafiosPage),
+      },
+      {
+        path: 'perfil',
+        loadComponent: () =>
+          import('./pages/perfil/perfil.page').then((m) => m.PerfilPage),
+      },
+      {
+        path: '',
+        redirectTo: '/tabs/home',
+        pathMatch: 'full',
+      },
+    ],
+  },
+  {
+    path: 'checkin',
+    loadComponent: () => import('./pages/checkin/checkin.page').then( m => m.CheckinPage)
   },
 ];
