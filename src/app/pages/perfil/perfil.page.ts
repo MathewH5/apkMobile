@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-perfil',
@@ -10,13 +10,30 @@ import { IonicModule } from '@ionic/angular';
   styleUrls: ['./perfil.page.scss'],
 })
 export class PerfilPage {
-  pontos = 120;
-  streak = 5;
-  metasConcluidas = 4;
-  desafiosConcluidos = 15;
+  constructor(
+    private alertCtrl: AlertController,
+    private navCtrl: NavController
+  ) {}
 
-  logout() {
-    console.log('Saindo...');
-    alert('Logout realizado com sucesso!');
+  async logout() {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar saída',
+      message: 'Tem certeza que deseja sair?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Sair',
+          handler: () => {
+            localStorage.clear();
+            this.navCtrl.navigateRoot('/login'); // 👈 caminho corrigido
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

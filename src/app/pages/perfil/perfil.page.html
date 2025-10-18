@@ -1,31 +1,93 @@
 <ion-header>
-  <ion-toolbar color="dark">
-    <ion-title>Meu Perfil 👤</ion-title>
+  <ion-toolbar color="light">
+    <ion-title>Meu Perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-icon name="settings-outline" size="large"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" color="dark" class="perfil-container">
-  <div class="perfil-info">
-    <ion-avatar>
-      <img src="https://i.pravatar.cc/150?img=12" alt="Avatar do usuário" />
-    </ion-avatar>
-    <h2>Matheos Hanna</h2>
-    <p>🏆 Pontos: {{ pontos }}</p>
-    <p>🔥 Streak: {{ streak }} dias</p>
+<ion-content class="profile-container">
+
+  <!-- Avatar -->
+  <div class="avatar-container">
+    <img src="assets/perfil/foto-perfil.jpeg" alt="Foto do usuário" />
   </div>
 
-  <ion-list>
-    <ion-item lines="inset">
-      <ion-label>Meta semanal</ion-label>
-      <ion-badge color="success">{{ metasConcluidas }}/7</ion-badge>
-    </ion-item>
-    <ion-item lines="inset">
-      <ion-label>Desafios concluídos</ion-label>
-      <ion-badge color="primary">{{ desafiosConcluidos }}</ion-badge>
-    </ion-item>
-  </ion-list>
+  <!-- Estatísticas -->
+  <div class="section">
+    <h2>📊 Estatísticas</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>47</h3>
+        <p>Desafios Concluídos</p>
+      </div>
+      <div class="stat-card">
+        <h3>21</h3>
+        <p>Maior Streak</p>
+      </div>
+      <div class="stat-card">
+        <h3>8</h3>
+        <p>Badges Conquistados</p>
+      </div>
+    </div>
+  </div>
 
+  <!-- Badges -->
+  <div class="section">
+    <h2>🏆 Badges Conquistadas</h2>
+    <div class="badges-grid">
+      <div class="badge-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" />
+        <p>Primeira Semana</p>
+      </div>
+      <div class="badge-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" />
+        <p>Streak de Fogo</p>
+      </div>
+      <div class="badge-card">
+        <img src="https://cdn-icons-png.flaticon.com/512/616/616489.png" />
+        <p>Diamante</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Histórico -->
+  <div class="section">
+    <h2>📖 Histórico de Desafios</h2>
+    <ion-list>
+      <ion-item lines="inset">
+        <ion-label>
+          <h3>Leitura Diária</h3>
+          <p>Concluído em 15/12/2023</p>
+        </ion-label>
+        <ion-icon color="success" name="checkmark-done-circle-outline"></ion-icon>
+      </ion-item>
+
+      <ion-item lines="inset">
+        <ion-label>
+          <h3>Exercício Matinal</h3>
+          <p>Concluído em 14/12/2023</p>
+        </ion-label>
+        <ion-icon color="success" name="checkmark-done-circle-outline"></ion-icon>
+      </ion-item>
+
+      <ion-item lines="inset">
+        <ion-label>
+          <h3>Meditação 10min</h3>
+          <p>Concluído em 13/12/2023</p>
+        </ion-label>
+        <ion-icon color="success" name="checkmark-done-circle-outline"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- 🔴 BOTÃO DE SAIR -->
+<div class="logout-container">
   <ion-button expand="block" color="danger" (click)="logout()">
+    <ion-icon slot="start" name="log-out-outline"></ion-icon>
     Sair
   </ion-button>
+</div>
+
 </ion-content>

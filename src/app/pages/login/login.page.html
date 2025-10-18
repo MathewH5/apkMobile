@@ -1,20 +1,64 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Entrar</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="login-container">
 
-<ion-content class="ion-padding">
-  <form [formGroup]="form">
-    <ion-item>
-      <ion-input label="E-mail" type="email" formControlName="email"></ion-input>
-    </ion-item>
+  <!-- Logo e título -->
+  <div class="logo">
+    <img src="assets/icon/icon.jfif" alt="Focus Challenge logo" />
+    <h1>Focus Challenge</h1>
+  </div>
 
-    <ion-item>
-      <ion-input label="Senha" type="password" formControlName="senha"></ion-input>
-    </ion-item>
+  <p class="welcome-text">Bem-vindo de volta!</p>
+  <p class="subtitle">Continue sua jornada de produtividade</p>
+
+  <!-- Botões sociais -->
+  <ion-button expand="block" fill="outline"  class="social-btn">
+    <ion-icon slot="start" name="logo-google"></ion-icon>
+    Continuar com Google
+  </ion-button>
+
+  <ion-button expand="block" class="social-btn">
+    <ion-icon slot="start" name="logo-apple"></ion-icon>
+    Continuar com Apple
+  </ion-button>
+
+  <div class="divider">
+    <hr /><span>ou</span><hr />
+  </div>
+
+  <!-- Formulário -->
+  <form [formGroup]="form" class="login-form">
+    <div class="input-group">
+      <ion-icon name="mail-outline"></ion-icon>
+      <input
+        type="email"
+        placeholder="Digite seu e-mail"
+        formControlName="email"
+      />
+    </div>
+
+    <div class="input-group">
+      <ion-icon name="lock-closed-outline"></ion-icon>
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Digite sua senha"
+        formControlName="senha"
+      />
+      <ion-icon
+        [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+        class="toggle-icon"
+        (click)="togglePassword()"
+      ></ion-icon>
+    </div>
   </form>
 
-  <ion-button expand="block" (click)="login()">Entrar</ion-button>
-  <ion-button fill="clear" routerLink="/home">Entrar sem login</ion-button>
+  <a class="forgot-password" href="#">Esqueceu sua senha?</a>
+
+  <!-- Botões -->
+  <ion-button expand="block" color="success" (click)="login()">
+    Entrar
+  </ion-button>
+
+  <ion-button fill="clear" color="medium" routerLink="/home" class="guest-btn">
+    Entrar sem login
+  </ion-button>
+
 </ion-content>

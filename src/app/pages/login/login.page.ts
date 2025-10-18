@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class LoginPage {
   form: FormGroup;
+  showPassword = false;
 
   constructor(private fb: FormBuilder, private router: Router) {
     this.form = this.fb.group({
@@ -21,13 +22,15 @@ export class LoginPage {
     });
   }
 
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
   login() {
     if (this.form.valid) {
-      // Simula login bem-sucedido e vai pra Home
       this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
     } else {
       alert('Preencha os campos corretamente.');
     }
   }
-  
 }
