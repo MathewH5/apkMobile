@@ -7,11 +7,6 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'login',
-    loadComponent: () =>
-      import('./pages/login/login.page').then((m) => m.LoginPage),
-  },
-  {
     path: 'tabs',
     loadComponent: () =>
       import('./pages/tabs/tabs.page').then((m) => m.TabsPage),
@@ -41,5 +36,9 @@ export const routes: Routes = [
   {
     path: 'checkin',
     loadComponent: () => import('./pages/checkin/checkin.page').then( m => m.CheckinPage)
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
   },
 ];
