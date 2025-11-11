@@ -1,78 +1,91 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormsModule } from '@angular/forms';                 // ✅ precisa para [(ngModel)]
+import { IonicModule, LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { AlertController, IonicModule, LoadingController } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth';
+import { AuthService } from '../services/auth';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,                                              // ✅ adicionado
+    IonicModule,
+  ],
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  // 👇 ESSA PARTE É FUNDAMENTAL
-  standalone: true,
-  imports: [CommonModule, IonicModule, ReactiveFormsModule],
 })
-export class LoginPage implements OnInit {
-  credentials!: FormGroup;
+export class LoginPage {
+  email = '';
+  password = '';
+  private loadingRef?: HTMLIonLoadingElement;
 
   constructor(
-    private fb: FormBuilder,
-    private loadingController: LoadingController,
-    private alertController: AlertController,
-    private authService: AuthService,
-    private router: Router
+    private auth: AuthService,
+    private router: Router,
+    private loading: LoadingController,
+    private toast: ToastController
   ) {}
 
-  get email() {
-    return this.credentials.get('email');
+  private async showLoading(message: string) {
+    this.loadingRef = await this.loading.create({ message });
+    await this.loadingRef.present();
+  }
+  private async hideLoading() {
+    try { await this.loadingRef?.dismiss(); } catch {}
+  }
+  private async showToast(message: string) {
+    const t = await this.toast.create({ message, duration: 2500, position: 'bottom' });
+    await t.present();
   }
 
-  get password() {
-    return this.credentials.get('password');
-  }
-
-  ngOnInit() {
-    this.credentials = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });
-  }
-
-  async register() {
-    const loading = await this.loadingController.create();
-    await loading.present();
-
-    const user = await this.authService.register(this.credentials.value);
-    await loading.dismiss();
-
-    if (user) {
-      this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
-    } else {
-      this.showAlert('Falha no registro', 'Tente novamente!');
+  async entrar() {
+    await this.showLoading('Entrando...');
+    try {
+      const user = await this.auth.login({ email: this.email, password: this.password });
+      if (!user) {
+        await this.showToast('E-mail ou senha inválidos.');
+        return;
+      }
+      await this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+    } catch (e: any) {
+      console.error('Login error:', e);
+      await this.showToast(mapFirebaseError(e));
+    } finally {
+      await this.hideLoading();                               // ✅ loading sempre fecha
     }
   }
 
-  async login() {
-    const loading = await this.loadingController.create();
-    await loading.present();
-
-    const user = await this.authService.login(this.credentials.value);
-    await loading.dismiss();
-
-    if (user) {
-      this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
-    } else {
-      this.showAlert('Falha no login', 'Verifique suas credenciais e tente novamente.');
+  async criarConta() {
+    await this.showLoading('Criando conta...');
+    try {
+      const user = await this.auth.register({ email: this.email, password: this.password });
+      if (!user) {
+        await this.showToast('Não foi possível criar a conta.');
+        return;
+      }
+      await this.router.navigateByUrl('/tabs/home', { replaceUrl: true });
+    } catch (e: any) {
+      console.error('Register error:', e);
+      await this.showToast(mapFirebaseError(e));
+    } finally {
+      await this.hideLoading();
     }
   }
+}
 
-  async showAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header,
-      message,
-      buttons: ['OK'],
-    });
-    await alert.present();
+function mapFirebaseError(e: any) {
+  const code = e?.code || '';
+  if (code?.startsWith('auth/')) {
+    switch (code) {
+      case 'auth/invalid-email': return 'E-mail inválido.';
+      case 'auth/user-not-found':
+      case 'auth/wrong-password': return 'E-mail ou senha incorretos.';
+      case 'auth/email-already-in-use': return 'E-mail já está em uso.';
+      case 'auth/too-many-requests': return 'Muitas tentativas. Tente mais tarde.';
+    }
   }
+  if (code === 'permission-denied') return 'Regras do Firestore bloquearam o acesso.';
+  return 'Ocorreu um erro. Tente novamente.';
 }

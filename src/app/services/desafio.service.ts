@@ -1,27 +1,49 @@
 import { Injectable } from '@angular/core';
+import { Firestore, collection, collectionData, addDoc, doc, updateDoc, serverTimestamp, query, where, deleteDoc } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
-export interface Desafio {
-  titulo: string;
-  categoria: string;
-  duracao: string;
-  emoji: string;
+export interface Challenge {
+  id?: string;
+  title: string;
+  category: string;   // 'Mente' | 'Saúde' | 'Corpo' | ...
+  minutes: number;
+  status: 'pending' | 'done';
+  doneAt?: any;
 }
 
 @Injectable({ providedIn: 'root' })
 export class DesafioService {
-  private desafios: Desafio[] = [
-    { titulo: 'Caminhe 1 km', categoria: 'Corpo', duracao: '10min', emoji: '🚶' },
-    { titulo: 'Medite por 5min', categoria: 'Mente', duracao: '5min', emoji: '🧘' },
-    { titulo: 'Leia por 15min', categoria: 'Foco', duracao: '15min', emoji: '📖' },
-    { titulo: 'Beba 2 copos de água', categoria: 'Saúde', duracao: '2min', emoji: '💧' },
-    { titulo: 'Escreva 3 gratidões', categoria: 'Mente', duracao: '10min', emoji: '📝' },
-  ];
+  constructor(private fs: Firestore) {}
 
-  getDesafioAleatorio() {
-    return this.desafios[Math.floor(Math.random() * this.desafios.length)];
+  list$(uid: string): Observable<Challenge[]> {
+    const col = collection(this.fs, `users/${uid}/challenges`);
+    return collectionData(col, { idField: 'id' }) as Observable<Challenge[]>;
   }
 
-  getTodosDesafios() {
-    return this.desafios;
+  listByStatus$(uid: string, status: 'pending' | 'done') {
+    const col = collection(this.fs, `users/${uid}/challenges`);
+    const q = query(col, where('status', '==', status));
+    return collectionData(q, { idField: 'id' }) as Observable<Challenge[]>;
+  }
+
+  async add(uid: string, c: Omit<Challenge, 'id' | 'status'>) {
+    const col = collection(this.fs, `users/${uid}/challenges`);
+    await addDoc(col, { ...c, status: 'pending' });
+  }
+
+  async markDone(uid: string, id: string) {
+    await updateDoc(doc(this.fs, `users/${uid}/challenges/${id}`), {
+      status: 'done', doneAt: serverTimestamp()
+    });
+  }
+
+  async markPending(uid: string, id: string) {
+    await updateDoc(doc(this.fs, `users/${uid}/challenges/${id}`), {
+      status: 'pending', doneAt: null
+    });
+  }
+
+  async remove(uid: string, id: string) {
+    await deleteDoc(doc(this.fs, `users/${uid}/challenges/${id}`));
   }
 }

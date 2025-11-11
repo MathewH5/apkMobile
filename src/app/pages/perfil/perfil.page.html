@@ -1,93 +1,65 @@
 <ion-header>
   <ion-toolbar color="light">
     <ion-title>Meu Perfil</ion-title>
-    <ion-buttons slot="end">
-      <ion-icon name="settings-outline" size="large"></ion-icon>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="profile-container">
+<ion-content class="ion-padding">
+  <div class="center">
+    <ion-avatar style="width: 88px; height: 88px;">
+      <img
+        [src]="(profile$ | async)?.photoURL || 'assets/avatar-placeholder.png'"
+        referrerpolicy="no-referrer"
+        (error)="removerFoto()"
+        alt="avatar" />
+    </ion-avatar>
 
-  <!-- Avatar -->
-  <div class="avatar-container">
-    <img src="assets/perfil/foto-perfil.jpeg" alt="Foto do usuário" />
+    <ion-button size="small" color="danger" (click)="trocarFotoPorLink()">
+      Trocar por link
+    </ion-button>
+    <ion-button size="small" fill="outline" color="medium" (click)="removerFoto()">
+      Remover
+    </ion-button>
   </div>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>📊 Estatísticas</ion-card-title>
+    </ion-card-header>
 
-  <!-- Estatísticas -->
-  <div class="section">
-    <h2>📊 Estatísticas</h2>
-    <div class="stats-grid">
-      <div class="stat-card">
-        <h3>47</h3>
-        <p>Desafios Concluídos</p>
-      </div>
-      <div class="stat-card">
-        <h3>21</h3>
-        <p>Maior Streak</p>
-      </div>
-      <div class="stat-card">
-        <h3>8</h3>
-        <p>Badges Conquistados</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Badges -->
-  <div class="section">
-    <h2>🏆 Badges Conquistadas</h2>
-    <div class="badges-grid">
-      <div class="badge-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/2583/2583343.png" />
-        <p>Primeira Semana</p>
-      </div>
-      <div class="badge-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" />
-        <p>Streak de Fogo</p>
-      </div>
-      <div class="badge-card">
-        <img src="https://cdn-icons-png.flaticon.com/512/616/616489.png" />
-        <p>Diamante</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Histórico -->
-  <div class="section">
-    <h2>📖 Histórico de Desafios</h2>
-    <ion-list>
-      <ion-item lines="inset">
-        <ion-label>
-          <h3>Leitura Diária</h3>
-          <p>Concluído em 15/12/2023</p>
-        </ion-label>
-        <ion-icon color="success" name="checkmark-done-circle-outline"></ion-icon>
+    <ion-list *ngIf="(profile$ | async) as p">
+      <ion-item>
+        <ion-label>Desafios Concluídos</ion-label>
+        <ion-badge slot="end" color="success">{{ p.stats.completedCount }}</ion-badge>
       </ion-item>
 
-      <ion-item lines="inset">
-        <ion-label>
-          <h3>Exercício Matinal</h3>
-          <p>Concluído em 14/12/2023</p>
-        </ion-label>
-        <ion-icon color="success" name="checkmark-done-circle-outline"></ion-icon>
+      <ion-item>
+        <ion-label>Streak 🔥</ion-label>
+        <ion-badge slot="end">{{ p.stats.streak }}</ion-badge>
       </ion-item>
 
-      <ion-item lines="inset">
-        <ion-label>
-          <h3>Meditação 10min</h3>
-          <p>Concluído em 13/12/2023</p>
-        </ion-label>
-        <ion-icon color="success" name="checkmark-done-circle-outline"></ion-icon>
+  <ion-item>
+    <ion-label>Semana (últimos 7 dias)</ion-label>
+    <ion-badge slot="end" color="medium">
+      {{ weekSum(p.stats.week) }}
+    </ion-badge>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-label>
+      <div>Meta diária</div>
+      <div class="text-xs opacity-70">
+        Hoje: {{ todayCount(p) }} / {{ p.stats.dailyGoal }}
+      </div>
+      <ion-progress-bar [value]="dailyProgress(p)"></ion-progress-bar>
+    </ion-label>
+  </ion-item>
+
+      <ion-item>
+        <ion-label>Pontos</ion-label>
+        <ion-badge slot="end" color="primary">{{ p.points }}</ion-badge>
       </ion-item>
     </ion-list>
-  </div>
+  </ion-card>
 
-  <!-- 🔴 BOTÃO DE SAIR -->
-<div class="logout-container">
-  <ion-button expand="block" color="danger" (click)="logout()">
-    <ion-icon slot="start" name="log-out-outline"></ion-icon>
-    Sair
-  </ion-button>
-</div>
-
+  <ion-button expand="block" color="medium" (click)="logout()">Sair</ion-button>
 </ion-content>

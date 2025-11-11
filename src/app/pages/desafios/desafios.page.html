@@ -1,19 +1,20 @@
 <ion-header>
-  <ion-toolbar color="dark">
+  <ion-toolbar color="light">
     <ion-title>Meus Desafios 💪</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" color="dark">
+<ion-content class="ion-padding">
+  <ion-button expand="block" color="success" (click)="addRandom()">Adicionar aleatório</ion-button>
+
   <ion-list>
-    <ion-item *ngFor="let desafio of desafios" lines="inset">
+    <ion-item *ngFor="let d of (desafios$ | async)" lines="inset">
       <ion-label>
-        <h2>{{ desafio.titulo }}</h2>
-        <p>{{ desafio.categoria }} • {{ desafio.tempo }}</p>
+        <h2>{{ d.title }} {{ d.emoji }}</h2>
+        <p>{{ d.category }} • {{ d.minutes }}min</p>
       </ion-label>
-      <ion-badge [color]="desafio.concluido ? 'success' : 'medium'">
-        {{ desafio.concluido ? 'Feito' : 'Pendente' }}
-      </ion-badge>
+      <ion-toggle [checked]="d.completed" (ionChange)="toggle(d, $event.detail.checked)"></ion-toggle>
+      <ion-button slot="end" color="danger" (click)="remove(d)">Remover</ion-button>
     </ion-item>
   </ion-list>
 </ion-content>

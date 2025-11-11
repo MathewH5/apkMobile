@@ -5,28 +5,23 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card *ngIf="desafio">
+  <ion-card *ngIf="desafio() as d">
     <ion-card-header>
       <ion-card-subtitle>
-        {{ desafio.categoria | uppercase }} • {{ desafio.duracao }}
+        {{ d.category | uppercase }} • {{ d.minutes }}min
       </ion-card-subtitle>
-      <ion-card-title>{{ desafio.titulo }} {{ desafio.emoji }}</ion-card-title>
+      <ion-card-title>{{ d.title }} {{ d.emoji }}</ion-card-title>
     </ion-card-header>
-
     <ion-card-content>
-      <ion-button expand="block" color="success" (click)="concluirDesafio()">
-        Concluir
-      </ion-button>
-      <ion-button expand="block" fill="outline" (click)="trocarDesafio()">
-        Trocar
-      </ion-button>
+      <ion-button expand="block" color="success" (click)="concluirDesafio()">Concluir</ion-button>
+      <ion-button expand="block" fill="outline" (click)="trocarDesafio()">Trocar</ion-button>
     </ion-card-content>
   </ion-card>
 
   <ion-item>
-    <ion-label>Pontos: {{ pontos }}</ion-label>
+    <ion-label>Pontos: {{ (user$ | async)?.points ?? 0 }}</ion-label>
   </ion-item>
   <ion-item>
-    <ion-label>Streak 🔥: {{ streak }}</ion-label>
+    <ion-label>Streak 🔥: {{ (user$ | async)?.stats?.streak ?? 0 }}</ion-label>
   </ion-item>
 </ion-content>
